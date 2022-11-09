@@ -85,7 +85,7 @@ var fiveDay = function (info) {
     }
 }
 
-// Search history buttons
+// Search history button creation
 
 var pastSearch = function(cityName){
     var pastContainer = $("#previous-search")
@@ -93,8 +93,16 @@ var pastSearch = function(cityName){
     pastContainer.append(prevSearches)
 }
 
+// load weather info when history button is pressed
 
-// Search button function 
+$("#previous-search").on("click", ".prev-search", function (event) {
+    event.preventDefault();
+
+    var cityName = $($(this)).text().trim()
+    weatherInfo(cityName)
+})
+
+// Main search button function 
 $("#city-search").on("submit", function (event) {
     event.preventDefault();
 
@@ -103,3 +111,17 @@ $("#city-search").on("submit", function (event) {
 
     $("#city-input").val("")
 })
+
+// loads in data from previous visits via local storage 
+
+var loadData = function() {
+    var city = JSON.parse(localStorage.getItem("previousSearch"))
+    if (city){
+        previousSearch = JSON.parse(localStorage.getItem("previousSearch"))
+        for (var i = 0; i < city.length; i++) {
+            pastSearch(city[i])
+        }
+    }  
+}
+
+loadData()
