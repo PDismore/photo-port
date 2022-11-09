@@ -11,7 +11,7 @@ var weatherInfo = function(city){
             //if API is good and the name is not in the previousSearch Array create a button and add it to the previousSearch Array
             if (response.ok) {
                 if(previousSearch.includes(data.name) === false) {
-                    // pastSearchBtn(data.name)
+                    // pastSearch(data.name)
                     previousSearch.push(data.name)
                 }
                 localStorage.setItem("previousSearch", JSON.stringify(previousSearch))
@@ -19,7 +19,7 @@ var weatherInfo = function(city){
                     .then(function (res) {
                         res.json().then(function (data) {
                             todayWeather(data, city)
-                            // createFiveDay(data)
+                            fiveDay(data)
                         })
                     }) 
             }
@@ -35,11 +35,11 @@ var todayWeather = function(info,city){
 
     todayBox.children().remove()
 
-    var date = $("<h2>").text(moment().format("L"))
-    todayBox.append(date)
-
-    var cityName = $("<h3>").text(city.toUpperCase())
+    var cityName = $("<h2>").text(city.toUpperCase())
     todayBox.append(cityName)
+
+    var date = $("<h3>").text(moment().format("L"))
+    todayBox.append(date)
 
     var img = $("<img>").attr("src", "http://openweathermap.org/img/wn/" + info.current.weather[0].icon + "@2x.png")
     todayBox.append(img)
@@ -54,6 +54,35 @@ var todayWeather = function(info,city){
     todayBox.append(humidity)
 
     console.log(todayWeather)
+}
+
+// creates 5 day weather forecast box
+var fiveDay = function (info) {
+    var fiveDayBox = $("#fiveday-weather")
+    fiveDayBox.children().remove()
+
+    for (var i = 1; i <= 5; i++) {
+        var container = $("<div>")
+        container.addClass("col-2 mx-2 bg-info rounded justify-content-center text-center card")
+
+        var date = $("<h6>").text(moment().add(i, "days").format("L"))
+        date.addClass("card-header bg-light rounded")
+        container.append(date)
+
+        var img = $("<img>").attr("src", "http://openweathermap.org/img/wn/" + info.daily[i].weather[0].icon + "@2x.png")
+        container.append(img)
+
+        var temp = $("<div>").text("Temp: " + Math.floor(info.daily[i].temp.day))
+        container.append(temp)
+
+        var wind = $("<div>").text("Wind: " + Math.floor(info.daily[i].wind_speed) + " MPH")
+        container.append(wind)
+
+        var humidity = $("<div>").text("Humidity: " + info.daily[i].humidity + "%")
+        container.append(humidity)
+
+        fiveDayBox.append(container)
+    }
 }
 
 
