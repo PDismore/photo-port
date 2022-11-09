@@ -11,7 +11,7 @@ var weatherInfo = function(city){
             //if API is good and the name is not in the previousSearch Array create a button and add it to the previousSearch Array
             if (response.ok) {
                 if(previousSearch.includes(data.name) === false) {
-                    // pastSearch(data.name)
+                    pastSearch(data.name)
                     previousSearch.push(data.name)
                 }
                 localStorage.setItem("previousSearch", JSON.stringify(previousSearch))
@@ -53,7 +53,7 @@ var todayWeather = function(info,city){
     var humidity = $("<div>").text("Humidity: " + info.current.humidity + "%")
     todayBox.append(humidity)
 
-    console.log(todayWeather)
+  
 }
 
 // creates 5 day weather forecast box
@@ -83,6 +83,14 @@ var fiveDay = function (info) {
 
         fiveDayBox.append(container)
     }
+}
+
+// Search history buttons
+
+var pastSearch = function(cityName){
+    var pastContainer = $("#previous-search")
+    var prevSearches = $("<button>").text(cityName).addClass("btn-secondary rounded text-dark text-center my-1 w-100 prev-search")
+    pastContainer.append(prevSearches)
 }
 
 
