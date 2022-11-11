@@ -7,4 +7,5 @@ This app allows the user to search a city and receive a current and 5 day weathe
 ## Deployed Link
 The deploy can be found [here](https://pdismore.github.io/WeatherDash/).
 ## Screenshot
+![WeatherDash Screenshot!](./assets/images/WeatherDashScreenshot.PNG)
 
